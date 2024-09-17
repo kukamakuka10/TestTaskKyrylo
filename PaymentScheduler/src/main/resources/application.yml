@@ -1,0 +1,9 @@
+spring:
+  service:
+    url: ${BUSINESS_SERVICE_URL}
+  scheduler:
+    cron: "0 * * * * *"
+  application:
+    name: TaskScheduler
+server:
+  port: ${SCHEDULE_SERVER_PORT}

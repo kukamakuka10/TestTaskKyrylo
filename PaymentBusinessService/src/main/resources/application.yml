@@ -1,0 +1,7 @@
+spring:
+  service:
+    url: ${DAO_SERVICE_URL}
+  application:
+    name: PaymentBusinessService
+server:
+  port: ${BUSINESS_SERVER_PORT}

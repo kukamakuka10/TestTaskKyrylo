@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - ./Postgres/db-data:/var/lib/postgresql/data
+    expose: 
+      - 5432
+
+  dao-service:
+    build:
+      context: ./PaymentDAOService
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    expose:
+      - ${DAO_SERVER_PORT}
+
+  business-service:
+    build:
+      context: ./PaymentBusinessService
+    depends_on:
+      - dao-service
+    env_file:
+      - .env
+    ports:
+      - ${BUSINESS_PORT}:${BUSINESS_SERVER_PORT}
+
+  scheduler:
+    build:
+      context: ./PaymentScheduler
+    depends_on:
+      - business-service
+    env_file:
+      - .env
+    expose:
+      - ${SCHEDULE_SERVER_PORT}
