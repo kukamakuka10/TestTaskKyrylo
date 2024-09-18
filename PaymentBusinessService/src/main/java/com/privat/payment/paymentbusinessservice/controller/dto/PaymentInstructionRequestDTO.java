@@ -3,6 +3,7 @@ package com.privat.payment.paymentbusinessservice.controller.dto;
 
 
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -30,11 +31,15 @@ public class PaymentInstructionRequestDTO {
     @Digits(integer = 6, fraction = 0, message = "MFO must contain only digits.")
     private String recipientMfo;
     @NotNull
+    @Size(min = 8, max = 8, message = "Okpo must be exactly 8 digits.")
+    @Digits(integer = 8, fraction = 0, message = "Okpo must contain only digits.")
     private String recipientOkpo;
     @NotNull
     private String recipientName;
     @NotNull
+    @Min(value = 60,message = "Period must be >= 60 seconds")
     private Long period;
     @NotNull
+    @Min(value = 100,message = "Payment amount must be at least 100")
     private Long paymentAmount;
 }
